@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box, Flex, Text } from "rebass";
-import { CSSTransition } from "react-transition-group";
-import stockService from "../../services/stocks";
+import isEmpty from "lodash/isEmpty";
 
 import { Loader, Select } from "../../components";
+import { OptionType } from "../../components/Select";
+import FavouriteStocks from "./FavouriteStocks";
 import StockItem from "./StockItem";
+
+import stockService from "../../services/stocks";
 
 const { useStocks } = stockService;
 
-
 const StockView: React.FC = () => {
-  const { isLoadingSymbols, isLoadingStock, isError, getStockSymbols, getStockBySymbol, stockSymbols, stockStats } = useStocks();
+  const {
+    isLoadingSymbols,
+    isLoadingStock,
+    favouriteSymbols,
+    setFavouriteSymbol,
+    getStockSymbols,
+    getStockBySymbol,
+    stockSymbols,
+    stockStats,
+    selectedSymbol,
+    setSelectedSymbol
+  } = useStocks();
 
   useEffect(() => {
     getStockSymbols();
-  }, []);
+  }, [getStockSymbols]);
 
-  const formattedStockSymbols = stockSymbols.slice(0, 500).map(({ name = "", symbol = "" }) => ({
+  const formattedStockSymbols = stockSymbols.map(({ name = "", symbol = "" }) => ({
     label: name,
     value: symbol
   }));
-  const initialValue: any = formattedStockSymbols && formattedStockSymbols.length ? formattedStockSymbols[0] : "";
-
-  const [selectedSymbol, setSelectedSymbol] = useState(initialValue);
-
-  useEffect(() => {
-    if (selectedSymbol.value) {
-      getStockBySymbol(selectedSymbol.value);
-    }
-  }, [selectedSymbol]);
 
   if (isLoadingSymbols) {
     return (
@@ -38,18 +42,33 @@ const StockView: React.FC = () => {
     )
   }
 
-  const handleChange = (newValue: string, actionMeta: any) => {
-    setSelectedSymbol(newValue);
+  const handleChange = (option: OptionType, actionMeta: any) => {
+    if (option.value && !stockStats[option.value]) {
+      getStockBySymbol(option.value);
+    }
+  }
+
+  const handleSetFavouriteSymbol = (symbol: string) => {
+    setFavouriteSymbol(symbol);
+  }
+
+  const handleClickFavourite = (symbol: string) => {
+    setSelectedSymbol(symbol);
   };
 
-  const isEmptyStock = !stockStats || !stockStats.companyName;
-  console.log("isEmptyStock", isEmptyStock);
+  const isEmptyStock = !stockStats || !selectedSymbol || !stockStats[selectedSymbol];
 
   return (
     <React.Fragment>
       <Flex alignItems="center" flexDirection="column" justifyContent="space-evenly" bg="text" height="100%" p={4}>
         <Box width={1 / 2}>
-          <Text fontSize={3} color="gray" mb={2}>Choose a stock below</Text>
+          {!isEmpty(favouriteSymbols) && (
+            <React.Fragment>
+              <Text color="muted">Favourite stocks:</Text>
+              <FavouriteStocks onClickFavourite={handleClickFavourite} favouriteStocks={favouriteSymbols} />
+            </React.Fragment>
+          )}
+          <Text fontSize={3} color="muted" mb={2}>Choose a stock below</Text>
           <Select
             placeholder="Select a stock"
             value={selectedSymbol}
@@ -64,14 +83,13 @@ const StockView: React.FC = () => {
           )}
 
           {!isLoadingStock && !isEmptyStock && (
-            <StockItem stock={stockStats} />
+            <StockItem
+              isFavourited={favouriteSymbols.includes(selectedSymbol)}
+              stock={stockStats[selectedSymbol]}
+              setFavouriteSymbols={handleSetFavouriteSymbol}
+            />
           )}
         </Box>
-        <Flex width={1} flexDirection="row" justifyContent="center" alignItems="center">
-          <Box p={2} width={1} sx={{ minWidth: "400px", minHeight: "125px", border: "1px solid red" }}>
-            Stuff
-          </Box>
-        </Flex>
       </Flex>
     </React.Fragment>
   )

@@ -1,41 +1,36 @@
 import React from "react";
-import Select from "react-select"
+import { Box } from "rebass";
+import VirtualSelect from "react-virtualized-select";
 
-import { colors } from "../theme";
-
-type OptionType = { label: string; value: string };
+export type OptionType = { label: string; value: string };
 
 interface SelectProps {
   defaultOptions?: Array<OptionType>,
-  loadOptions?(): void;
+  loadOptions?(value: string, actionMeta: any): void;
   name: string;
   onChange(value: any, actionMeta: any): void;
   options?: Array<OptionType>;
   placeholder?: string;
-  value: OptionType;
+  value: string;
   variant?: string;
 }
 
 const SelectDropdown: React.FC<SelectProps> = ({ options, onChange, name, placeholder, value }) => {
+  const handleChange: any = (value: any, actions: any) => {
+    onChange(value, actions);
+  };
+
   return (
-    <Select
-      options={options}
-      onChange={onChange}
-      value={value}
-      name={name}
-      placeholder={placeholder}
-      theme={theme => ({
-        ...theme,
-        colors: {
-          ...theme.colors,
-          primary: colors.primary,
-          dander: colors.error,
-          neutral80: colors.text,
-          primary25: colors.gray
-        },
-      })}
-    />
-  );
+    <Box width="100%">
+      <VirtualSelect
+        options={options}
+        name={name}
+        placeholder={placeholder}
+        onChange={handleChange}
+        value={value}
+      />
+    </Box>
+  )
 }
 
 export default SelectDropdown;
