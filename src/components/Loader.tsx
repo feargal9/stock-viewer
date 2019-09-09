@@ -25,7 +25,7 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = ({ message = "" }) => {
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center">
-      <RotatingSpinner>
+      <RotatingSpinner data-testid="loader">
         <Icon size={48} icon={spinner8} />
       </RotatingSpinner>
       {message && (

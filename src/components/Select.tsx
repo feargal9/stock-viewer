@@ -5,7 +5,7 @@ import VirtualSelect from "react-virtualized-select";
 export type OptionType = { label: string; value: string };
 
 interface SelectProps {
-  defaultOptions?: Array<OptionType>,
+  defaultOptions?: Array<OptionType>;
   loadOptions?(value: string, actionMeta: any): void;
   name: string;
   onChange(value: any, actionMeta: any): void;
@@ -17,6 +17,7 @@ interface SelectProps {
 
 const SelectDropdown: React.FC<SelectProps> = ({ options, onChange, name, placeholder, value }) => {
   const handleChange: any = (value: any, actions: any) => {
+    ;
     onChange(value, actions);
   };
 

@@ -15,12 +15,12 @@ const FavStockItem: React.FC<ItemProps> = ({ onClick, stock }) => {
   return (
     <Box
       onClick={() => onClick(stock)}
-      bg="text"
+      bg="background"
       as="button"
       mr={1}
       sx={{ height: "15px", border: "1px solid", borderColor: "primary", cursor: "pointer" }}
     >
-      <Text>{stock}</Text>
+      <Text color="text">{stock}</Text>
     </Box>
   )
 }
@@ -28,7 +28,7 @@ const FavStockItem: React.FC<ItemProps> = ({ onClick, stock }) => {
 const FavouriteStocks: React.FC<ListProps> = ({ onClickFavourite, favouriteStocks = [] }) => {
   return (
     <Card
-      bg="text"
+      bg="backgrund"
       p={2}
       mb={4}
       sx={{

@@ -118,33 +118,33 @@ export const colors = {
   info: "#FFAB4F",
   primary: '#0790f2',
   muted: '#2e3b50',
-  gray: '#cdd3dc',
-  text: "#232e40"
+  gray: '#cdd3dc'
 }
 
-const light = {
+const main = {
   ...theme,
   colors: {
     ...colors,
-    background: '#232e40',
-    text: "#fff"
+    background: '#fff',
+    text: "#232e40"
   },
 }
 
-const dark = {
+const alt = {
   ...theme,
   colors: {
     ...colors,
+    primary: "#2BA38E",
     background: "#fff",
-    text: "#232e40",
+    text: "#103A45",
   }
 }
 
 const themes = {
-  dark,
-  light
+  dark: alt,
+  light: main
 }
 
-export type Theme = typeof dark;
+export type Theme = typeof alt;
 
 export default themes;

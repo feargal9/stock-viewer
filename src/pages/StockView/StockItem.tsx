@@ -38,7 +38,7 @@ const StockItem: React.FC<StockItemProps<IStock>> = ({
 }) => {
   return (
     <Card
-      bg="text"
+      bg="background"
       mt={4}
       p={3}
       sx={{
@@ -53,8 +53,8 @@ const StockItem: React.FC<StockItemProps<IStock>> = ({
       <Flex flexDirection="column" alignItems="flex-start" justifyContent="center">
         <Flex flexDirection="row" justifyContent="space-between" width={1}>
           <Box mb={3}>
-            <Text fontWeight="bold" color="background">Symbol</Text>
-            <Text color="background">{stock.symbol}</Text>
+            <Text fontWeight="bold" color="text">Symbol</Text>
+            <Text as="p" data-testid="stock-symbol" color="text">{stock.symbol}</Text>
           </Box>
           <StarIcon
             active={isFavourited}
@@ -63,12 +63,12 @@ const StockItem: React.FC<StockItemProps<IStock>> = ({
           />
         </Flex>
         <Box mb={3}>
-          <Text fontWeight="bold" color="background">Current stock price</Text>
-          <Text color="background">{stock.latestPrice}</Text>
+          <Text fontWeight="bold" color="text">Current stock price</Text>
+          <Text data-testid="stock-price" color="text">{stock.latestPrice}</Text>
         </Box>
         <Box mb={3}>
-          <Text fontWeight="bold" color="background">Company description</Text>
-          <Text color="background">{stock.description}</Text>
+          <Text fontWeight="bold" color="text">Company description</Text>
+          <Text data-testid="stock-description" color="text">{stock.description}</Text>
         </Box>
       </Flex >
     </Card >

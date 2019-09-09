@@ -5,7 +5,7 @@ import { Flex, Box } from "rebass";
 
 const Footer: React.FC = () => {
   return (
-    <Flex flexDirection="row" bg="background" width={1}>
+    <Flex flexDirection="row" bg="text" width={1}>
       <Box as="footer" bg="background" sx={{ minHeight: "50px" }} />
     </Flex >
   )

@@ -25,7 +25,18 @@ const useStocks = () => {
   const [favouriteSymbols, setFavouriteSymbols] = useState<Symbol[]>([]);
   const [isLoadingSymbols, setIsLoadingSymbols] = useState(false);
   const [isLoadingStock, setIsLoadingStock] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [symbolsError, setSymbolsError] = useState("");
+  const [stockError, setStockError] = useState("");
+
+  const onSetFavouriteSymbol = (symbol: Symbol) => {
+    const isCurrentFavourite = favouriteSymbols.includes(symbol);
+
+    const updatedFavouriteSymbols = isCurrentFavourite
+      ? favouriteSymbols.filter(favSymbol => favSymbol !== symbol)
+      : [...favouriteSymbols, symbol];
+
+    setFavouriteSymbols(updatedFavouriteSymbols);
+  };
 
   const getStockSymbols = useCallback(async () => {
     const SYMBOLS_LIST_PATH = "ref-data/symbols";
@@ -39,16 +50,10 @@ const useStocks = () => {
       setIsLoadingSymbols(false);
       setStockSymbols(stockSymbolList);
     } catch (response) {
-      setIsError(true);
+      setSymbolsError(response.message);
       setIsLoadingSymbols(false);
     }
   }, []);
-
-  useEffect(() => {
-    if (selectedSymbol && !stockSymbols) {
-      getStockSymbols();
-    }
-  }, [stockSymbols, getStockSymbols, selectedSymbol]);
 
   const getStockBySymbol = useCallback((symbol: string) => {
     setSelectedSymbol(symbol);
@@ -64,7 +69,10 @@ const useStocks = () => {
     try {
       setIsLoadingStock(true);
 
-      const requests: [Promise<IStock>, Promise<IStock>] = [api(companyReqUrl), api(stockQuoteReqUrl)];
+      const requests: [Promise<IStock>, Promise<IStock>] = [
+        api(companyReqUrl), api(stockQuoteReqUrl)
+      ];
+
       const response: any = await Promise.all(requests).then((results: any[]) => {
         const companyResponse: IStock = results[0];
         const stockQuoteResponse: IStock = results[1];
@@ -77,37 +85,36 @@ const useStocks = () => {
       setIsLoadingStock(false);
       setStockStats({ ...stockStats, [response.symbol]: response });
     } catch (error) {
-      setIsError(true);
+      setStockError(error.message);
       setIsLoadingStock(false);
     }
   }, [stockStats, selectedSymbol]);
 
   useEffect(() => {
+    if (selectedSymbol && !stockSymbols) {
+
+      getStockSymbols();
+    }
+  }, [stockSymbols, getStockSymbols, selectedSymbol]);
+
+  useEffect(() => {
     if (selectedSymbol && !stockStats[selectedSymbol]) {
+
       getStockBySymbolAsync();
     }
   }, [getStockBySymbolAsync, selectedSymbol, stockStats]);
 
-  const onSetFavouriteSymbol = (symbol: Symbol) => {
-    const isCurrentFavourite = favouriteSymbols.includes(symbol);
-
-    const updatedFavouriteSymbols = isCurrentFavourite
-      ? favouriteSymbols.filter(favSymbol => favSymbol !== symbol)
-      : [...favouriteSymbols, symbol];
-
-    setFavouriteSymbols(updatedFavouriteSymbols);
-  };
-
   return {
+    favouriteSymbols,
     getStockSymbols,
     getStockBySymbol,
-    favouriteSymbols,
-    setFavouriteSymbol: onSetFavouriteSymbol,
-    selectedSymbol,
-    setSelectedSymbol,
-    isError,
+    symbolsError,
+    stockError,
     isLoadingSymbols,
     isLoadingStock,
+    selectedSymbol,
+    setFavouriteSymbol: onSetFavouriteSymbol,
+    setSelectedSymbol,
     stockSymbols,
     stockStats
   }

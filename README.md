@@ -1,3 +1,37 @@
+
+
+Stock Viewer - Lendesk challenge
+
+## Features:
+  ### Allow a user to choose from a list of company stock symbols
+  ### Display information pertaining to the selected company stock
+  ### Ability to mark a selected stock as a favourite
+  ### Theme toggle
+
+## Technical Decisions:
+  ### Styling
+  I made the choice to use a combination of [Emotion](https://github.com/emotion-js/emotion) 
+  and a small library called [Rebass](https://rebassjs.org/) to handle layout and styling.
+  Emotion provides a lot of flexability by giving the developer a choice of using the Styled Components 
+  paradigm or by using a specific `css` prop to elements.
+  Rebass provides React components for primitive UI elements.
+  One of the main reasons to use this combination was for how quick layouts can get mocked up as everything is hooked up to a theme file.
+
+  ### State management
+  The main considerations I took when deiciding on how to manage state was to determine what data would be needed. 
+  The select dropdown which displays a large list of company stock symbols gets its options from the `/ref-data/symbols` endpoint. More documentation for this endpoint is available here: https://iexcloud.io/docs/api/#stocks.
+  Once a user selects a symbol we then need to display to the user a description of that company and also the latest stock price. At this point all data operations are read only (GET requests) so it would be overkill to introduce a library to handle state management.
+
+  The final decision was to create a custom hook `useStocks()` which would be responsible for:
+    Maintaining the currently selected symbol state,
+    List of returned symbols shown in the select dropdown,
+    The stock information containing the company description and latest price
+    Loading and error states for above API calls
+
+  ### Testing
+  The main component behavior is tested using [React Testing Library](https://github.com/testing-library/react-testing-library) and the useStocks hook is tested with the accompanying [React Hooks Testing Library](https://github.com/testing-library/react-hooks-testing-library)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

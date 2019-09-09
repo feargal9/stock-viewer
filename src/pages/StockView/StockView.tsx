@@ -15,6 +15,8 @@ const StockView: React.FC = () => {
   const {
     isLoadingSymbols,
     isLoadingStock,
+    symbolsError,
+    stockError,
     favouriteSymbols,
     setFavouriteSymbol,
     getStockSymbols,
@@ -29,16 +31,19 @@ const StockView: React.FC = () => {
     getStockSymbols();
   }, [getStockSymbols]);
 
-  const formattedStockSymbols = stockSymbols.map(({ name = "", symbol = "" }) => ({
-    label: name,
-    value: symbol
-  }));
-
   if (isLoadingSymbols) {
     return (
-      <Flex alignItems="center" justifyContent="center" bg="text" height="100%" p={4}>
+      <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
         <Loader />
       </Flex>
+    )
+  }
+
+  if (symbolsError) {
+    return (
+      <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4} >
+        <Text color="error">{symbolsError}</Text>
+      </Flex >
     )
   }
 
@@ -56,12 +61,23 @@ const StockView: React.FC = () => {
     setSelectedSymbol(symbol);
   };
 
+  const formattedStockSymbols = stockSymbols.map(({ name = "", symbol = "" }) => ({
+    label: symbol,
+    value: symbol
+  }));
   const isEmptyStock = !stockStats || !selectedSymbol || !stockStats[selectedSymbol];
 
   return (
     <React.Fragment>
-      <Flex alignItems="center" flexDirection="column" justifyContent="space-evenly" bg="text" height="100%" p={4}>
-        <Box width={1 / 2}>
+      <Flex
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="space-evenly"
+        bg="background"
+        height="100%"
+        p={4}
+      >
+        <Box width={[1, 3 / 4]}>
           {!isEmpty(favouriteSymbols) && (
             <React.Fragment>
               <Text color="muted">Favourite stocks:</Text>
@@ -77,11 +93,15 @@ const StockView: React.FC = () => {
             options={formattedStockSymbols}
           />
           {(isLoadingStock) && (
-            <Flex alignItems="center" justifyContent="center" bg="text" height="100%" p={4}>
+            <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
               <Loader message="Stocks loading" />
             </Flex>
           )}
-
+          {stockError && (
+            <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
+              <Text color="error">{stockError}</Text>
+            </Flex>
+          )}
           {!isLoadingStock && !isEmptyStock && (
             <StockItem
               isFavourited={favouriteSymbols.includes(selectedSymbol)}
