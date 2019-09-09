@@ -3,10 +3,10 @@
 Stock Viewer - Lendesk challenge
 
 ## Features:
-  ### Allow a user to choose from a list of company stock symbols
-  ### Display information pertaining to the selected company stock
-  ### Ability to mark a selected stock as a favourite
-  ### Theme toggle
+  Allow a user to choose from a list of company stock symbols
+  Display information pertaining to the selected company stock
+  Ability to mark a selected stock as a favourite
+  Theme toggle
 
 ## Technical Decisions:
   ### Styling
