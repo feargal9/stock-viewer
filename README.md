@@ -3,17 +3,17 @@
 Stock Viewer - Lendesk challenge
 
 ## Features:
-  Allow a user to choose from a list of company stock symbols
-  Display information pertaining to the selected company stock
-  Ability to mark a selected stock as a favourite
-  Theme toggle
+  * Allow a user to choose from a list of company stock symbols
+  * Display information pertaining to the selected company stock
+  * Ability to mark a selected stock as a favourite
+  * Theme toggle
 
 ## Technical Decisions:
   ### Styling
   I made the choice to use a combination of [Emotion](https://github.com/emotion-js/emotion) 
   and a small library called [Rebass](https://rebassjs.org/) to handle layout and styling.
   Emotion provides a lot of flexability by giving the developer a choice of using the Styled Components 
-  paradigm or by using a specific `css` prop to elements.
+  paradigm or by passing a specific `css` prop to elements or components.
   Rebass provides React components for primitive UI elements.
   One of the main reasons to use this combination was for how quick layouts can get mocked up as everything is hooked up to a theme file.
 
