@@ -17,7 +17,6 @@ interface SelectProps {
 
 const SelectDropdown: React.FC<SelectProps> = ({ options, onChange, name, placeholder, value }) => {
   const handleChange: any = (value: any, actions: any) => {
-    ;
     onChange(value, actions);
   };
 
