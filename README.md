@@ -40,6 +40,11 @@ In the project directory, you can run:
 
 ### `npm start`
 
+#### API Key
+Note that an API key is needed to authenticate the API calls to IEXCloud API.
+Create a .env file in the root of this project and add an env variable as follows:
+  REACT_APP_API_KEY={your_api_key}
+
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
