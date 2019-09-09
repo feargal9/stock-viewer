@@ -1,6 +1,8 @@
 
 
 Stock Viewer - Lendesk challenge
+Node version: 12.9.1
+Yarn version: 1.17.0
 
 ## Features:
   * Allow a user to choose from a list of company stock symbols
