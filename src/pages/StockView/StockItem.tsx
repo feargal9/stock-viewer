@@ -1,14 +1,14 @@
-import React from "react";
-import { Box, Flex, Text, Card } from "rebass";
-import { Icon } from "react-icons-kit";
+import React from 'react';
+import { Box, Flex, Text, Card } from 'rebass';
+import { Icon } from 'react-icons-kit';
 import { starEmpty } from 'react-icons-kit/icomoon/starEmpty';
 import { starFull } from 'react-icons-kit/icomoon/starFull';
 
-import { IStock } from "../../services/stocks";
+import { StockType } from '../../services/stocks';
 
-interface StockItemProps<IStock> {
+interface StockItemProps<StockType> {
   isFavourited: boolean;
-  stock: IStock;
+  stock: StockType;
   setFavouriteSymbols: (symbol: string) => void;
 }
 
@@ -18,20 +18,24 @@ interface IconProps {
   symbol: string;
 }
 
-const StarIcon: React.FC<IconProps> = ({ active = false, setFavouriteSymbols, symbol }) => {
+const StarIcon: React.FC<IconProps> = ({
+  active = false,
+  setFavouriteSymbols,
+  symbol
+}) => {
   const icon = active ? starFull : starEmpty;
   return (
     <Box
-      onClick={() => setFavouriteSymbols(symbol)}
+      onClick={(): void => setFavouriteSymbols(symbol)}
       color="muted"
-      sx={{ cursor: "pointer" }}
+      sx={{ cursor: 'pointer' }}
     >
       <Icon size={32} icon={icon} />
     </Box>
-  )
-}
+  );
+};
 
-const StockItem: React.FC<StockItemProps<IStock>> = ({
+const StockItem: React.FC<StockItemProps<StockType>> = ({
   isFavourited = false,
   stock,
   setFavouriteSymbols
@@ -42,19 +46,27 @@ const StockItem: React.FC<StockItemProps<IStock>> = ({
       mt={4}
       p={3}
       sx={{
-        minHeight: "150px",
-        width: "100%",
-        border: "1px solid",
-        borderColor: "gray",
-        borderRadius: "5px",
-        boxShadow: "none"
+        minHeight: '150px',
+        width: '100%',
+        border: '1px solid',
+        borderColor: 'gray',
+        borderRadius: '5px',
+        boxShadow: 'none'
       }}
     >
-      <Flex flexDirection="column" alignItems="flex-start" justifyContent="center">
+      <Flex
+        flexDirection="column"
+        alignItems="flex-start"
+        justifyContent="center"
+      >
         <Flex flexDirection="row" justifyContent="space-between" width={1}>
           <Box mb={3}>
-            <Text fontWeight="bold" color="text">Symbol</Text>
-            <Text as="p" data-testid="stock-symbol" color="text">{stock.symbol}</Text>
+            <Text fontWeight="bold" color="text">
+              Symbol
+            </Text>
+            <Text as="p" data-testid="stock-symbol" color="text">
+              {stock.symbol}
+            </Text>
           </Box>
           <StarIcon
             active={isFavourited}
@@ -63,16 +75,24 @@ const StockItem: React.FC<StockItemProps<IStock>> = ({
           />
         </Flex>
         <Box mb={3}>
-          <Text fontWeight="bold" color="text">Current stock price</Text>
-          <Text data-testid="stock-price" color="text">{stock.latestPrice}</Text>
+          <Text fontWeight="bold" color="text">
+            Current stock price
+          </Text>
+          <Text data-testid="stock-price" color="text">
+            {stock.latestPrice}
+          </Text>
         </Box>
         <Box mb={3}>
-          <Text fontWeight="bold" color="text">Company description</Text>
-          <Text data-testid="stock-description" color="text">{stock.description}</Text>
+          <Text fontWeight="bold" color="text">
+            Company description
+          </Text>
+          <Text data-testid="stock-description" color="text">
+            {stock.description}
+          </Text>
         </Box>
-      </Flex >
-    </Card >
-  )
-}
+      </Flex>
+    </Card>
+  );
+};
 
 export default StockItem;

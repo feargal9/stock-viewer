@@ -1,6 +1,6 @@
-import useStocks from "./useStocks";
+import useStocks from './useStocks';
 
-export * from "./useStocks";
+export * from './useStocks';
 export default {
   useStocks
-}
+};
