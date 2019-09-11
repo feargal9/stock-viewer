@@ -1,1 +1,1 @@
-export { default as stocks } from "./stocks";
+export { default as stocks } from './stocks';

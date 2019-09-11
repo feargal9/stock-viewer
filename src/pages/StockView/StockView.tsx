@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { Box, Flex, Text } from "rebass";
-import isEmpty from "lodash/isEmpty";
+import React from 'react';
+import { Box, Flex, Text } from 'rebass';
+import isEmpty from 'lodash/isEmpty';
 
-import { Loader, Select } from "../../components";
-import { OptionType } from "../../components/Select";
-import FavouriteStocks from "./FavouriteStocks";
-import StockItem from "./StockItem";
+import { Loader, Select } from '../../components';
+import { OptionType } from '../../components/Select';
+import FavouriteStocks from './FavouriteStocks';
+import StockItem from './StockItem';
 
-import stockService from "../../services/stocks";
+import stockService from '../../services/stocks';
 
 const { useStocks } = stockService;
 
@@ -19,53 +19,62 @@ const StockView: React.FC = () => {
     stockError,
     favouriteSymbols,
     setFavouriteSymbol,
-    getStockSymbols,
-    getStockBySymbol,
     stockSymbols,
     stockStats,
     selectedSymbol,
     setSelectedSymbol
   } = useStocks();
 
-  useEffect(() => {
-    getStockSymbols();
-  }, [getStockSymbols]);
-
   if (isLoadingSymbols) {
     return (
-      <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        bg="background"
+        height="100%"
+        p={4}
+      >
         <Loader />
       </Flex>
-    )
+    );
   }
 
   if (symbolsError) {
     return (
-      <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4} >
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        bg="background"
+        height="100%"
+        p={4}
+      >
         <Text color="error">{symbolsError}</Text>
-      </Flex >
-    )
+      </Flex>
+    );
   }
 
-  const handleChange = (option: OptionType, actionMeta: any) => {
-    if (option.value && !stockStats[option.value]) {
-      getStockBySymbol(option.value);
+  const handleChange = (option: OptionType): void => {
+    if (option && option.value && !stockStats[option.value]) {
+      setSelectedSymbol(option.value);
+    } else {
+      setSelectedSymbol('');
     }
-  }
+  };
 
-  const handleSetFavouriteSymbol = (symbol: string) => {
+  const handleSetFavouriteSymbol = (symbol: string): void => {
     setFavouriteSymbol(symbol);
-  }
+  };
 
-  const handleClickFavourite = (symbol: string) => {
+  const handleClickFavourite = (symbol: string): void => {
     setSelectedSymbol(symbol);
   };
 
-  const formattedStockSymbols = stockSymbols.map(({ name = "", symbol = "" }) => ({
+  const formattedStockSymbols = stockSymbols.map(({ symbol = '' }) => ({
     label: symbol,
     value: symbol
   }));
-  const isEmptyStock = !stockStats || !selectedSymbol || !stockStats[selectedSymbol];
+  const isEmptyStock =
+    !stockStats || !selectedSymbol || !stockStats[selectedSymbol];
 
   return (
     <React.Fragment>
@@ -81,10 +90,15 @@ const StockView: React.FC = () => {
           {!isEmpty(favouriteSymbols) && (
             <React.Fragment>
               <Text color="muted">Favourite stocks:</Text>
-              <FavouriteStocks onClickFavourite={handleClickFavourite} favouriteStocks={favouriteSymbols} />
+              <FavouriteStocks
+                onClickFavourite={handleClickFavourite}
+                favouriteStocks={favouriteSymbols}
+              />
             </React.Fragment>
           )}
-          <Text fontSize={3} color="muted" mb={2}>Choose a stock below</Text>
+          <Text fontSize={3} color="muted" mb={2}>
+            Choose a stock below
+          </Text>
           <Select
             placeholder="Select a stock"
             value={selectedSymbol}
@@ -92,13 +106,25 @@ const StockView: React.FC = () => {
             onChange={handleChange}
             options={formattedStockSymbols}
           />
-          {(isLoadingStock) && (
-            <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
+          {isLoadingStock && (
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              bg="background"
+              height="100%"
+              p={4}
+            >
               <Loader message="Stocks loading" />
             </Flex>
           )}
           {stockError && (
-            <Flex alignItems="center" justifyContent="center" bg="background" height="100%" p={4}>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              bg="background"
+              height="100%"
+              p={4}
+            >
               <Text color="error">{stockError}</Text>
             </Flex>
           )}
@@ -112,7 +138,7 @@ const StockView: React.FC = () => {
         </Box>
       </Flex>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default StockView;

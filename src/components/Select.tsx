@@ -1,6 +1,7 @@
-import React from "react";
-import { Box } from "rebass";
-import VirtualSelect from "react-virtualized-select";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import { Box } from 'rebass';
+import VirtualSelect from 'react-virtualized-select';
 
 export type OptionType = { label: string; value: string };
 
@@ -15,8 +16,15 @@ interface SelectProps {
   variant?: string;
 }
 
-const SelectDropdown: React.FC<SelectProps> = ({ options, onChange, name, placeholder, value }) => {
+const SelectDropdown: React.FC<SelectProps> = ({
+  options,
+  onChange,
+  name,
+  placeholder,
+  value
+}) => {
   const handleChange: any = (value: any, actions: any) => {
+    console.log('value', value);
     onChange(value, actions);
   };
 
@@ -30,7 +38,7 @@ const SelectDropdown: React.FC<SelectProps> = ({ options, onChange, name, placeh
         value={value}
       />
     </Box>
-  )
-}
+  );
+};
 
 export default SelectDropdown;

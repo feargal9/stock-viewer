@@ -1,23 +1,26 @@
-import React from "react";
-import { Box } from "rebass";
+import React from 'react';
+import { Box } from 'rebass';
 
-import { Theme } from "../theme";
-import Header from "./Header";
-import Footer from "./Footer";
-
+import { Theme } from '../theme';
+import Header from './Header';
+import Footer from './Footer';
 
 interface LayoutProps {
-  children: JSX.Element,
-  selectedTheme: ITheme;
+  children: JSX.Element;
+  selectedTheme: ThemeType;
   onToggleTheme(): void;
 }
 
-interface ITheme {
-  type: string,
-  theme: Theme
+interface ThemeType {
+  type: string;
+  theme: Theme;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, selectedTheme, onToggleTheme }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  selectedTheme,
+  onToggleTheme
+}) => {
   return (
     <Box
       sx={{
@@ -27,10 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children, selectedTheme, onToggleTheme 
           '"header" "nav" "main" "ads" "footer"',
           '"header header header" "nav main ads" "footer footer footer"'
         ],
-        gridTemplateColumns: [
-          '1fr',
-          '0px 1fr 0px'
-        ],
+        gridTemplateColumns: ['1fr', '0px 1fr 0px'],
         gridTemplateRows: [
           'min-content min-content 1fr min-content min-content',
           'min-content 1fr min-content'
@@ -60,7 +60,7 @@ const Layout: React.FC<LayoutProps> = ({ children, selectedTheme, onToggleTheme 
         <Footer />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
 export default Layout;

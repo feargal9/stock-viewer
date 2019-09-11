@@ -1,1 +1,1 @@
-export { default as StockView } from "./StockView/StockView";
+export { default as StockView } from './StockView/StockView';
