@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Flex, Text } from 'rebass';
 import isEmpty from 'lodash/isEmpty';
 
@@ -19,17 +19,11 @@ const StockView: React.FC = () => {
     stockError,
     favouriteSymbols,
     setFavouriteSymbol,
-    getStockSymbols,
-    getStockBySymbol,
     stockSymbols,
     stockStats,
     selectedSymbol,
     setSelectedSymbol
   } = useStocks();
-
-  useEffect(() => {
-    getStockSymbols();
-  }, [getStockSymbols]);
 
   if (isLoadingSymbols) {
     return (
@@ -60,8 +54,10 @@ const StockView: React.FC = () => {
   }
 
   const handleChange = (option: OptionType): void => {
-    if (option.value && !stockStats[option.value]) {
-      getStockBySymbol(option.value);
+    if (option && option.value && !stockStats[option.value]) {
+      setSelectedSymbol(option.value);
+    } else {
+      setSelectedSymbol('');
     }
   };
 

@@ -24,6 +24,7 @@ const SelectDropdown: React.FC<SelectProps> = ({
   value
 }) => {
   const handleChange: any = (value: any, actions: any) => {
+    console.log('value', value);
     onChange(value, actions);
   };
 

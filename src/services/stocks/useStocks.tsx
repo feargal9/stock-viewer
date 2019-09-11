@@ -21,8 +21,6 @@ interface StockState {
 
 interface StocksData {
   favouriteSymbols: string[];
-  getStockSymbols(): void;
-  getStockBySymbol(symbol: string): void;
   symbolsError: string;
   stockError: string;
   isLoadingSymbols: boolean;
@@ -71,11 +69,7 @@ const useStocks = (): StocksData => {
     }
   }, []);
 
-  const getStockBySymbol = useCallback((symbol: string) => {
-    setSelectedSymbol(symbol);
-  }, []);
-
-  const getStockBySymbolAsync = useCallback(async () => {
+  const getStockBySymbol = useCallback(async () => {
     const COMPANY_PATH = (symbol: string): string => `stock/${symbol}/company`;
     const STOCK_QUOTE_PATH = (symbol: string): string =>
       `stock/${symbol}/quote`;
@@ -115,21 +109,19 @@ const useStocks = (): StocksData => {
   }, [stockStats, selectedSymbol]);
 
   useEffect(() => {
-    if (selectedSymbol && !stockSymbols) {
+    if (!stockSymbols.length) {
       getStockSymbols();
     }
   }, [stockSymbols, getStockSymbols, selectedSymbol]);
 
   useEffect(() => {
     if (selectedSymbol && !stockStats[selectedSymbol]) {
-      getStockBySymbolAsync();
+      getStockBySymbol();
     }
-  }, [getStockBySymbolAsync, selectedSymbol, stockStats]);
+  }, [getStockBySymbol, selectedSymbol, stockStats]);
 
   return {
     favouriteSymbols,
-    getStockSymbols,
-    getStockBySymbol,
     symbolsError,
     stockError,
     isLoadingSymbols,
